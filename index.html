@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-page">
+        <div class="menu-container">
+            <h1>Chess Master</h1>
+            <p>Welcome! Please enter your name.</p>
+            <input type="text" id="input-player-name" placeholder="Enter your name" maxlength="20">
+            <button id="btn-login" class="menu-button">Login</button>
+        </div>
+    </div>
+
+    <div id="main-menu" class="hidden">
+        <div class="menu-container">
+            <h1 id="menu-title">Welcome, Player!</h1>
+            <button id="btn-pvp" class="menu-button">Player vs. Player</button>
+            <button id="btn-ai" class="menu-button">Player vs. AI</button>
+            <button id="btn-rules" class="menu-button secondary">How to Play</button>
+        </div>
+    </div>
+
+    <div id="player2-name-modal" class="modal-overlay hidden">
+        <div class="modal-content input-modal">
+            <h2>Enter Player 2's Name</h2>
+            <p>Please enter the name for the player using the Black pieces.</p>
+            <input type="text" id="input-player2-name" placeholder="Opponent" maxlength="20">
+            <div class="modal-buttons">
+                 <button id="btn-confirm-player2" class="menu-button">OK</button>
+                 <button id="btn-cancel-player2" class="menu-button secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-container" class="hidden">
+        
+        <div class="player-info opponent">
+            <div id="opponent-profile-icon" class="profile-icon"></div>
+            <span id="opponent-name" class="player-name">Opponent</span>
+            <div class="timer" id="opponent-timer">10:00</div>
+        </div>
+
+        <div class="game-header">
+            <button id="btn-back-menu" class="menu-button secondary small">« Menu</button>
+            <div id="game-status">White's Turn</div>
+            <div class="game-controls">
+                <button id="btn-undo" class="menu-button secondary small">Undo</button>
+                <button id="btn-new-game" class="menu-button secondary small">New Game</button>
+            </div>
+        </div>
+        
+        <div id="chess-board"></div>
+
+        <div class="player-info player">
+            <div id="player-profile-icon" class="profile-icon"></div>
+            <span id="player-name" class="player-name">Player</span>
+            <div class="timer" id="player-timer">10:00</div>
+        </div>
+    </div>
+
+    <div id="rules-modal" class="modal-overlay hidden">
+         <div class="modal-content">
+            <div class="modal-header">
+                <h2>How to Play Chess</h2>
+                <button id="btn-close-rules" class="menu-button small secondary">Close</button>
+            </div>
+            
+            <div class="modal-body">
+                <h3>The Pieces</h3>
+                <p>Chess has six different types of pieces. Each player starts with 16 pieces total:</p>
+                <ul>
+                    <li><b>King</b> - 1 per player</li>
+                    <li><b>Queen</b> - 1 per player</li>
+                    <li><b>Rook</b> (Castle) - 2 per player</li>
+                    <li><b>Bishop</b> - 2 per player</li>
+                    <li><b>Knight</b> (Horse) - 2 per player</li>
+                    <li><b>Pawn</b> - 8 per player</li>
+                </ul>
+
+                <h3>How Each Piece Moves</h3>
+
+                <div class="piece-rule">
+                    <h4>1. The Pawn <span class="value-box">1 point</span></h4>
+                    <ul>
+                        <li>Moves straight forward one square.</li>
+                        <li>On its first move, can advance two squares forward if both are vacant.</li>
+                        <li>Captures one square diagonally forward.</li>
+                        <li><b>Promotion:</b> If a pawn reaches the opposite end of the board, it must be promoted to a Queen, Rook, Bishop, or Knight.</li>
+                        <li><b>En Passant:</b> If an opponent's pawn moves two squares forward past your pawn (on its 5th rank), you can capture it "in passing" on your very next turn.</li>
+                    </ul>
+                </div>
+
+                <div class="piece-rule">
+                    <h4>2. The Rook <span class="value-box">5 points</span></h4>
+                    <ul>
+                        <li>Moves horizontally or vertically any number of squares.</li>
+                        <li>Cannot jump over other pieces.</li>
+                        <li>Participates in "castling" with the king.</li>
+                    </ul>
+                </div>
+                
+                <div class="piece-rule">
+                    <h4>3. The Knight <span class="value-box">3 points</span></h4>
+                    <ul>
+                        <li>Moves in an "L-shape": two squares in one direction (horizontal or vertical), then one square perpendicular.</li>
+                        <li>The only piece that can jump over other pieces.</li>
+                    </ul>
+                </div>
+
+                <div class="piece-rule">
+                    <h4>4. The Bishop <span class="value-box">3 points</span></h4>
+                    <ul>
+                        <li>Moves diagonally any number of squares.</li>
+                        <li>Cannot jump over other pieces.</li>
+                        <li>Each bishop stays on its starting color (light or dark) for the whole game.</li>
+                    </ul>
+                </div>
+
+                <div class="piece-rule">
+                    <h4>5. The Queen <span class="value-box">9 points</span></h4>
+                    <ul>
+                        <li>The most powerful piece.</li>
+                        <li>Combines the moves of the Rook and Bishop.</li>
+                        <li>Moves horizontally, vertically, or diagonally any number of squares.</li>
+                        <li>Cannot jump over other pieces.</li>
+                    </ul>
+                </div>
+
+                <div class="piece-rule">
+                    <h4>6. The King</h4>
+                    <ul>
+                        <li>Moves one square in any direction.</li>
+                        <li>Cannot move into "check" (a square attacked by an opponent).</li>
+                        <li><b>Castling:</b> A special move where the king moves two squares toward a rook, and the rook jumps to the other side. This can only be done if:
+                            <ul>
+                                <li>Neither the king nor the rook has moved.</li>
+                                <li>There are no pieces between them.</li>
+                                <li>The king is not in check, and does not move through or into check.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <h3>Check and Checkmate</h3>
+                <p><b>Check:</b> When the king is under attack. You MUST get out of check by moving the king, blocking the check, or capturing the attacking piece.</p>
+                <p><b>Checkmate:</b> When the king is in check and has no legal way to escape. This ends the game.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="winner-modal" class="modal-overlay hidden">
+        <div class="modal-content winner-animation">
+            <h2 id="winner-message">White Wins!</h2>
+            <p>Congratulations!</p>
+            <button id="btn-close-winner" class="menu-button">Play Again</button>
+        </div>
+    </div>
+
+    <div id="promotion-modal" class="modal-overlay hidden">
+        <div class="modal-content promotion-choices">
+            <h2>Pawn Promotion</h2>
+            <p>Choose a piece:</p>
+            <div class="promotion-buttons">
+                <button data-piece="Q" class="promotion-button">♕ Queen</button>
+                <button data-piece="R" class="promotion-button">♖ Rook</button>
+                <button data-piece="B" class="promotion-button">♗ Bishop</button>
+                <button data-piece="N" class="promotion-button">♘ Knight</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
